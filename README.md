@@ -39,7 +39,8 @@ akamai-apache-cache-control-guide/
 ├── Dockerfile
 ├── custom.conf
 ├── apache-test/
-│   └── test.html
+│   └── index.html
+    └── test.html
 └── README.md
 ```
 
@@ -150,7 +151,7 @@ podman build -t custom-apache-standalone .
 ### 2. Create Test Content
 ```bash
 mkdir apache-test
-echo "<html><body>Test Page</body></html>" > apache-test/test.html
+echo "<h1>Welcome to OCP Apache LAB!</h1>" > apache-test/html.html
 ```
 
 ### 3. Run the Container
