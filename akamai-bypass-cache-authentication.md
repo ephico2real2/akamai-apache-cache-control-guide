@@ -1,9 +1,7 @@
 Akamai Bypass Cache for Authentication
+
 ---
 
-### **Updated `akamai-bypass-cache-authentication.md`**
-
-```markdown
 # Akamai Bypass Cache for Authentication
 
 This guide explains how to implement bypass cache behavior in Apache for authentication scenarios when using Akamai as a CDN.
@@ -11,6 +9,7 @@ This guide explains how to implement bypass cache behavior in Apache for authent
 ---
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Directory Structure](#directory-structure)
 - [Apache Configuration](#apache-configuration)
@@ -34,20 +33,20 @@ Bypass cache is a specific caching strategy that:
 - Serves content directly from origin.
 - Maintains existing cache entries.
 - Disables downstream caching.
-- Particularly useful for authentication flows.
+- Is particularly useful for authentication flows.
 
 ---
 
 ## Directory Structure
 
-```
+```plaintext
 akamai-apache-cache-control-guide/
-├── Dockerfile
-├── custom.conf
-├── apache-test/
+├── Dockerfile             # Dockerfile for setting up testing environments
+├── custom.conf            # Custom Apache configuration file
+├── apache-test/           # Test HTML files for cache bypass scenarios
 │   └── test.html
-├── akamai-bypass-cache-authentication.md
-└── README.md
+├── akamai-bypass-cache-authentication.md  # This guide
+└── README.md              # High-level overview and quick start instructions
 ```
 
 ---
@@ -86,6 +85,7 @@ The `LocationMatch` directive uses regular expressions to match URL paths:
 ```
 
 Examples of matched URLs:
+
 ```
 ✅ /auth/login
 ✅ /auth/validate
@@ -97,7 +97,7 @@ Examples of matched URLs:
 
 ## Integration with Existing Configuration
 
-Add this to your existing `custom.conf`:
+Ensure you integrate this configuration smoothly into your existing Apache setup by adding the following to your `custom.conf`:
 
 ```apache
 <Directory "/var/www/html">
@@ -105,12 +105,12 @@ Add this to your existing `custom.conf`:
     AllowOverride None
     Require all granted
 
-    # Enable mod_rewrite
+    # Enable mod_rewrite for flexibility
     <IfModule mod_rewrite.c>
         RewriteEngine On
     </IfModule>
 
-    # Default cache prevention for static assets
+    # Cache prevention for static assets
     <IfModule mod_headers.c>
         <FilesMatch "\.(js|css|xml|gz|html|htm)$">
             Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, private, max-age=0, s-maxage=0"
@@ -131,6 +131,7 @@ Add this to your existing `custom.conf`:
         </LocationMatch>
     </IfModule>
 
+    # Disable ETags completely for all files
     FileETag None
 </Directory>
 ```
@@ -143,7 +144,7 @@ Add this to your existing `custom.conf`:
    - User requests protected content.
    - Edge server bypasses cache.
    - Request goes to origin for authentication.
-   - Auth result determines response.
+   - Authentication result determines the response.
 
 2. **After Authentication**:
    - Success → Serve content.
@@ -153,16 +154,16 @@ Add this to your existing `custom.conf`:
 
 ## How This Supports Authentication Systems
 
-This configuration is tailored to support authentication systems effectively:
+This configuration supports authentication systems effectively by:
 
 1. **Caching Disabled for Sensitive Data**:
-   - Headers like `no-store` and `no-cache` ensure that sensitive data is never stored in caches, whether at the CDN level or client-side.
+   - Headers like `no-store` and `no-cache` ensure sensitive data is never cached at the CDN or client level.
 
 2. **Controlled Caching for Authentication Endpoints**:
-   - The `bypass-cache` directive allows Akamai to forward authentication requests to the origin server, ensuring real-time validation while maintaining CDN cache integrity for other content.
+   - The `bypass-cache` directive ensures Akamai forwards authentication requests to the origin server for real-time validation while keeping cache integrity for other content.
 
 3. **Fresh Responses for Auth Flows**:
-   - Disabling `ETag` and `Last-Modified` prevents conditional requests, ensuring that each authentication request is processed afresh without relying on cached validation.
+   - Disabling `ETag` and `Last-Modified` prevents conditional requests, ensuring each authentication request is processed afresh.
 
 ---
 
@@ -177,9 +178,9 @@ This configuration is tailored to support authentication systems effectively:
 
 ## Authentication-Specific Recommendations
 
-- Use **`bypass-cache`** for login/auth endpoints.
+- Use **`bypass-cache`** for login/authentication endpoints.
 - Use **`no-store`** for authenticated content.
-- Separate static and dynamic (authenticated) content paths to optimize performance.
+- Separate static and dynamic (authenticated) content paths for optimal performance.
 - Implement proper session management for robust access control.
 
 ---
@@ -197,12 +198,14 @@ Bypass cache is best suited for:
 ## Comparison with No-Store
 
 ### Bypass Cache:
+
 - **Keeps existing cache entries**.
 - **Good for temporary bypass scenarios**.
 - Can be turned off with `Edge-Control: !bypass-cache`.
 - Often used with authentication flows.
 
 ### No-Store:
+
 - **Clears cached versions**.
 - **More permanent solution**.
 - Can be turned off with `Edge-Control: !no-store`.
@@ -212,13 +215,15 @@ Bypass cache is best suited for:
 
 ## Important Considerations
 
-### 1. Security
+### Security
+
 - Monitor origin server load.
 - Test authentication flows thoroughly.
 - Implement rate limiting to prevent abuse.
 - Secure all authentication endpoints.
 
-### 2. Performance
+### Performance
+
 - Potential increase in origin requests for `/auth/` endpoints.
 - Monitor cache hit/miss ratios to optimize performance.
 - Evaluate scaling requirements for authentication traffic.
@@ -233,4 +238,7 @@ Bypass cache is best suited for:
 ---
 
 ### **Conclusion**
-This updated configuration ensures the security of sensitive data while enabling controlled caching for authentication systems, maintaining balance between security, performance, and flexibility.
+
+This updated configuration ensures the security of sensitive data while enabling controlled caching for authentication systems, maintaining a balance between security, performance, and flexibility.
+
+---
