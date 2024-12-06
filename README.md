@@ -356,13 +356,17 @@ Content-Type: text/html; charset=UTF-8
 
 Here's a screenshot showing the working example: http://localhost:8080/index.html
 
+## How to Test
+1. Open the URL: [http://localhost:8080/index.html](http://localhost:8080/index.html)
+
+`` ./run-apache-test.sh ``
+
+3. Observe the background color and timestamp changes.
+
 ### testing in chrome showing blue
 ![Blue Screenshot](./screenshots/blue-chrome.png)
 
 ### change values in main.js to red : new browser
-
-`` ./run-apache-test.sh ``
-
 ![Red Screenshot](./screenshots/red-firebox.png)
 
 
