@@ -54,6 +54,10 @@ FROM quay.io/fedora/httpd-24:2.4
 
 USER 0
 
+# Install PHP for dynamic tests
+RUN dnf install -y php && \
+    dnf clean all
+
 # Copy configuration files
 #COPY custom.conf /etc/httpd/conf.d/custom.conf
 #
