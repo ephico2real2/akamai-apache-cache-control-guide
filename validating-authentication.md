@@ -60,7 +60,7 @@ FROM quay.io/fedora/httpd-24:2.4
 USER 0
 
 # Install PHP for dynamic tests
-RUN dnf install -y php php-fpm && \
+RUN dnf install -y php && \
     dnf clean all
 
 # Copy configuration files
@@ -129,7 +129,6 @@ cat > bypass-cache-apache-test/bypass-cache-custom.conf <<'EOF'
 </IfModule>
 EOF
 ```
-
 ---
 
 ## Setup Steps
