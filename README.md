@@ -93,7 +93,7 @@ CMD ["/usr/bin/run-httpd"]
 
     # Set caching headers
     <IfModule mod_headers.c>
-        <FilesMatch "\.(css|xml|gz|html|htm)$">
+        <FilesMatch "\.(xml|gz|html|htm)$">
             Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, private, max-age=0, s-maxage=0"
             Header set Pragma "no-cache"
             Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
@@ -132,7 +132,7 @@ cat > merge-custom.conf <<'EOF'
 
     # Set caching headers for static files
     <IfModule mod_headers.c>
-        <FilesMatch "\.(js|css|xml|gz|html|htm)$">
+        <FilesMatch "\.(css|xml|gz|html|htm)$">
             Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, private, max-age=0, s-maxage=0"
             Header set Pragma "no-cache"
             Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
@@ -169,6 +169,28 @@ cat > merge-custom.conf <<'EOF'
     # Disable ETags and Last-Modified for general cache prevention
     FileETag None
 </Directory>
+EOF
+```
+
+```bash
+cat > cache-custom.conf <<'EOF'
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|json)$">
+        Header set Cache-Control "max-age=31536000, public"
+        Header unset ETag
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
 EOF
 ```
 
@@ -356,14 +378,25 @@ Content-Type: text/html; charset=UTF-8
 
 Here's a screenshot showing the working example: http://localhost:8080/index.html
 
+## How to Test
+1. Open the URL: [http://localhost:8080/index.html](http://localhost:8080/index.html)
+
+`` ./run-apache-test.sh ``
+
+3. Observe the background color and timestamp changes.
+
 ### testing in chrome showing blue
 ![Blue Screenshot](./screenshots/blue-chrome.png)
 
 ### change values in main.js to red : new browser
-
-`` ./run-apache-test.sh ``
-
 ![Red Screenshot](./screenshots/red-firebox.png)
+
+### Run reload on browser to force reload
+```bash
+Command (⌘) + Shift (⇧) + R
+
+```
+
 
 
 ## comparison of the old mod_gzip configuration with the updated mod_deflate configuration:
