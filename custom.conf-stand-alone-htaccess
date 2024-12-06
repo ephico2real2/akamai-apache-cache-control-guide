@@ -1,0 +1,10 @@
+<Directory "/var/www/html">
+    Options FollowSymLinks
+    AllowOverride All
+    Require all granted
+
+    # Enable mod_rewrite for this directory
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+    </IfModule>
+</Directory>
