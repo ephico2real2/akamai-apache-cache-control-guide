@@ -17,7 +17,9 @@ console.log("Cache-Control is being tested with this script.");
 
 // document.body.style.backgroundColor = "#add8e6"; // Change to light blue
 
-document.body.style.backgroundColor = "red";
+// document.body.style.backgroundColor = "red";
+
+document.body.style.backgroundColor = "blue";
 
 // Dummy function to simulate dynamic interaction
 function testFunction() {
