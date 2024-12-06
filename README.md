@@ -93,7 +93,7 @@ CMD ["/usr/bin/run-httpd"]
 
     # Set caching headers
     <IfModule mod_headers.c>
-        <FilesMatch "\.(js|css|xml|gz|html|htm)$">
+        <FilesMatch "\.(css|xml|gz|html|htm)$">
             Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, private, max-age=0, s-maxage=0"
             Header set Pragma "no-cache"
             Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
