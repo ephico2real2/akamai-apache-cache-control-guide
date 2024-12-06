@@ -5,7 +5,7 @@ USER 0
 # Copy configuration files
 #COPY custom.conf /etc/httpd/conf.d/custom.conf
 COPY merge-custom.conf /etc/httpd/conf.d/merge-custom.conf
-
+COPY cache-custom.conf /etc/httpd/conf.d/cache-custom.conf
 # Enable mod_deflate (this one is already enabled too in the base image)
 # RUN sed -i '/#LoadModule deflate_module/s/^#//' /etc/httpd/conf/httpd.conf
 
