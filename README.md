@@ -55,7 +55,9 @@ FROM quay.io/fedora/httpd-24:2.4
 USER 0
 
 # Copy configuration files
-COPY custom.conf /etc/httpd/conf.d/custom.conf
+#COPY custom.conf /etc/httpd/conf.d/custom.conf
+#
+
 
 # Reset permissions of filesystem to default values
 RUN /usr/libexec/httpd-prepare && rpm-file-permissions
@@ -272,6 +274,27 @@ Pragma: no-cache
 Expires: Thu, 01 Jan 1970 00:00:00 GMT
 Edge-Control: no-store, max-age=0
 ```
+
+```bash
+curl -I --compressed http://localhost:8080/test.html
+```
+
+Expected output:
+```http
+HTTP/1.1 200 OK
+Date: Fri, 06 Dec 2024 04:00:32 GMT
+Server: Apache/2.4.62 (Fedora Linux) OpenSSL/3.2.2
+Accept-Ranges: bytes
+Vary: Accept-Encoding,User-Agent
+Content-Encoding: gzip
+Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate, private, max-age=0, s-maxage=0
+Pragma: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Edge-Control: no-store, max-age=0
+Content-Length: 397
+Content-Type: text/html; charset=UTF-8
+```
+
 
 ---
 
