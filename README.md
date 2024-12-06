@@ -352,6 +352,20 @@ Content-Type: text/html; charset=UTF-8
 ```
 
 
+## Screenshot
+
+Here's a screenshot showing the working example: http://localhost:8080/index.html
+
+### testing in chrome showing blue
+![Blue Screenshot](./screenshots/blue-chrome.png)
+
+### change values in main.js to red : new browser
+
+`` ./run-apache-test.sh ``
+
+![Red Screenshot](./screenshots/red-firebox.png)
+
+
 ## comparison of the old mod_gzip configuration with the updated mod_deflate configuration:
 
 ```apache
