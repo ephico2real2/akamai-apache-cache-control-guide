@@ -220,12 +220,64 @@ podman build -t custom-apache-standalone .
 ```
 
 ### 2 A. Create Test Content in index.html
+
 ```bash
-mkdir apache-test
-echo "<h1>Welcome to OCP Apache LAB!</h1>" > apache-test/index.html
+cat <<EOF > apache-test/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Test with main.js</title>
+</head>
+<body>
+    <h1>Welcome to the OCP Apache Lab!</h1>
+    <p>If everything is working, this page will dynamically update based on the <code>main.js</code> file.</p>
+
+    <!-- Link the main.js file -->
+    <script src="main.js"></script>
+</body>
+</html>
+EOF
 ```
 
-### 2B. Create GZIp Test Content in test.html
+### 2B : Adding custom main.js
+
+```bash
+# Create and write the content to main.js
+cat <<EOF > apache-test/main.js
+// main.js - Sample file for Apache Cache-Control Testing
+
+// Log a welcome message
+console.log("Welcome to the OCP Apache Lab!");
+
+// Dynamically display the current timestamp to test cache expiration behavior
+const timestampElement = document.createElement("div");
+timestampElement.style = "font-size: 18px; font-weight: bold; margin-top: 20px;";
+timestampElement.textContent = `Current Timestamp: ${new Date().toISOString()}`;
+document.body.appendChild(timestampElement);
+
+// Add a test message to ensure the file is loaded and executed
+console.log("Cache-Control is being tested with this script.");
+
+// Change the background color to confirm updates to the file
+// document.body.style.backgroundColor = "#f3f3f3";
+
+// document.body.style.backgroundColor = "#add8e6"; // Change to light blue
+
+document.body.style.backgroundColor = "red";
+
+// Dummy function to simulate dynamic interaction
+function testFunction() {
+    console.log("This is a test function to simulate script behavior.");
+}
+
+// Call the test function
+testFunction();
+EOF
+```
+
+### 2C. Create GZIp Test Content in test.html
 ```bash
 cat > apache-test/test.html <<'EOF'
 <!DOCTYPE html>
