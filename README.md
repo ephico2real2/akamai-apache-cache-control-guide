@@ -148,10 +148,39 @@ Our configuration uses multiple directives to ensure content is not cached:
 podman build -t custom-apache-standalone .
 ```
 
-### 2. Create Test Content
+### 2 A. Create Test Content in index.html
 ```bash
 mkdir apache-test
-echo "<h1>Welcome to OCP Apache LAB!</h1>" > apache-test/html.html
+echo "<h1>Welcome to OCP Apache LAB!</h1>" > apache-test/index.html
+```
+
+### 2B. Create GZIp Test Content in test.html
+```bash
+cat > apache-test/test.html <<'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compression Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Testing GZIP Compression</h1>
+    <p>This is a sample HTML file to test if GZIP compression is enabled on your Apache server.</p>
+    <p>The file includes some text, inline styles, and HTML elements to ensure that compression applies to a typical web page.</p>
+</body>
+</html>
+EOF
 ```
 
 ### 3. Run the Container
