@@ -369,6 +369,13 @@ Here's a screenshot showing the working example: http://localhost:8080/index.htm
 ### change values in main.js to red : new browser
 ![Red Screenshot](./screenshots/red-firebox.png)
 
+### Run reload on browser to force reload
+```bash
+Command (⌘) + Shift (⇧) + R
+
+```
+
+
 
 ## comparison of the old mod_gzip configuration with the updated mod_deflate configuration:
 
