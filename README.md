@@ -2,6 +2,17 @@ POC Guide for `akamai-apache-cache-control-guide`:
 
 ---
 
+### Key Differences Between Cache-Control, Expires, and Edge-Control
+
+| **Header**         | **Purpose**                                   | **Who Uses It**                     | **Best Use Case**                      |
+|---------------------|-----------------------------------------------|--------------------------------------|----------------------------------------|
+| **Cache-Control**   | Controls browser and intermediate caching.    | Modern browsers, proxies, and CDNs. | Fine-grained caching for all clients.  |
+| **Expires**         | Defines a fixed expiration date/time for files. | Legacy browsers (HTTP/1.0).         | Fallback for old browsers.             |
+| **Edge-Control**    | Custom caching directives for edge servers.   | CDNs like Akamai.                   | CDN-level optimization and rules.      |
+
+---
+
+
 # Akamai Apache Cache Control Guide
 
 This guide demonstrates how to configure Apache HTTP Server with specific caching directives, particularly focused on preventing caching both at the Apache level and when using Akamai as a CDN.
